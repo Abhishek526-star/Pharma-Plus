@@ -5,6 +5,7 @@ import { logout, setCredentials } from '../redux/slices/authSlice'; // <-- Add s
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
+console.log("API Base URL:", API_BASE_URL); // Debugging line to check the base URL
 const api = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true, // Crucial for sending HTTP-only refresh token cookies
