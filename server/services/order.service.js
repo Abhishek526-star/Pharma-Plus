@@ -9,7 +9,12 @@ const createOrder = async (userId, deliveryAddress, phone) => {
         throw new ApiError(400, 'Your cart is empty');
     }
 
-    const medicines = cart.items.map(item => ({
+    const validItems = (cart.items || []).filter(item => item.medicineId != null);
+    if (validItems.length === 0) {
+        throw new ApiError(400, 'Your cart does not contain valid medicines');
+    }
+
+    const medicines = validItems.map(item => ({
         medicineId: item.medicineId._id,
         name: item.medicineId.name,
         price: item.medicineId.price,

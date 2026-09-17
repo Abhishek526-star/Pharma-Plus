@@ -60,6 +60,7 @@ const Users = () => {
                     className="border border-gray-300 rounded-md text-sm py-1 px-2 focus:ring-brand-500 focus:border-brand-500 capitalize"
                   >
                     <option value="customer">Customer</option>
+                    <option value="pharmacist">Pharmacist</option>
                     <option value="admin">Admin</option>
                   </select>
                 </td>

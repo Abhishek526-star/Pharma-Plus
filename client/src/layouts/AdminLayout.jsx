@@ -42,7 +42,7 @@ const AdminLayout = () => {
         </div>
         <nav className="flex flex-col gap-1">
           {navLink('/admin', 'Dashboard', LayoutDashboard)}
-          {navLink('/admin/users', 'Users', Users)}
+          {user?.role === 'admin' && navLink('/admin/users', 'Users', Users)}
           {navLink('/admin/orders', 'Orders', ShoppingBag)}
           {navLink('/admin/prescriptions', 'Prescriptions', FileCheck)}
 

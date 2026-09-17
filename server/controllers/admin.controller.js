@@ -1,5 +1,6 @@
 const asyncHandler = require('../utils/asyncHandler');
 const ApiResponse = require('../utils/ApiResponse');
+const ApiError = require('../utils/ApiError');
 const { getDashboardStats, getAllUsers, updateUserRole } = require('../services/admin.service');
 
 const getStats = asyncHandler(async (req, res) => {
@@ -14,7 +15,7 @@ const getUsers = asyncHandler(async (req, res) => {
 
 const updateRole = asyncHandler(async (req, res) => {
     const { role } = req.body;
-    if (!['customer', 'admin'].includes(role)) {
+    if (!['customer', 'admin', 'pharmacist'].includes(role)) {
         throw new ApiError(400, 'Invalid role specified');
     }
     const user = await updateUserRole(req.params.id, role);

@@ -58,7 +58,7 @@ const Inventory = () => {
       setIsModalOpen(false);
       fetchData(); // Refresh list
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to add medicine');
+      toast.error(error.response?.data?.message || error.message || 'Failed to add medicine');
     } finally {
       setIsSubmitting(false);
     }

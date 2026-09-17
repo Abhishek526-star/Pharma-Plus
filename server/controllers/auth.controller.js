@@ -28,7 +28,7 @@ const login = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         maxAge: 7 * 24 * 60 * 60 * 1000
     };
     return res.status(200)
@@ -44,7 +44,11 @@ const refresh = asyncHandler(async (req, res) => {
 
 const logout = asyncHandler(async (req, res) => {
     await logoutUser(req.user._id);
-    const options = { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict' };
+    const options = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    };
     return res.status(200).clearCookie('refreshToken', options).json(new ApiResponse(200, {}, 'User logged out successfully'));
 });
 

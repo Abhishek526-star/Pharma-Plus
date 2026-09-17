@@ -28,17 +28,19 @@ const Cart = () => {
     toast.success('Item removed from cart');
   };
 
-  // Calculate subtotal safely
-  const subtotal = items.reduce((acc, item) => {
+  // Calculate subtotal safely on valid items
+  const validItems = (items || []).filter((item) => item && item.medicineId);
+
+  const subtotal = validItems.reduce((acc, item) => {
     const price = item.medicineId?.price || 0;
     return acc + (price * item.quantity);
   }, 0);
 
-  if (isLoading && items.length === 0) {
+  if (isLoading && validItems.length === 0) {
     return <div className="text-center py-20">Loading cart...</div>;
   }
 
-  if (items.length === 0) {
+  if (validItems.length === 0) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <ShoppingBag className="w-16 h-16 text-gray-300 mx-auto mb-4" />
@@ -58,7 +60,7 @@ const Cart = () => {
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Cart Items List */}
         <div className="lg:col-span-2 space-y-4">
-          {items.map((item) => (
+          {validItems.map((item) => (
             <div key={item.medicineId._id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex gap-4 items-center">
               <Link to={`/medicines/${item.medicineId._id}`} className="w-20 h-20 bg-gray-50 rounded-md flex items-center justify-center shrink-0">
                 {item.medicineId.image ? (

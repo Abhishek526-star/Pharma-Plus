@@ -28,7 +28,11 @@ const Checkout = () => {
     },
   });
 
-  if(!items.length === 0) navigate('/shop');
+  useEffect(() => {
+    if (items && items.length === 0) {
+      navigate('/medicines');
+    }
+  }, [items, navigate]);
 
   const subtotal = items.reduce((total, item) => {
     return total + (item.medicineId?.price || 0) * item.quantity;
