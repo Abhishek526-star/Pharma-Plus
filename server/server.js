@@ -14,9 +14,27 @@ connectDB();
 
 
 // Security & Parsing Middleware
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: false }));
+
+const allowedOrigins = [
+    process.env.CLIENT_URL,
+    'https://pharmaplus-frontend.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:3000',
+].filter(Boolean).map(origin => origin.trim().replace(/\/$/, ''));
+
 app.use(cors({
-    origin: process.env.CLIENT_URL ,
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+        const cleanOrigin = origin.trim().replace(/\/$/, '');
+        if (
+            allowedOrigins.includes(cleanOrigin) ||
+            cleanOrigin.endsWith('.vercel.app')
+        ) {
+            return callback(null, true);
+        }
+        return callback(null, false);
+    },
     credentials: true,
 }));
 
